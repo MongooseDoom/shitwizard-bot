@@ -46,9 +46,14 @@ bot.on("message", msg => {
 });
 
 bot.on('presenceUpdate', (oldMember, newMember) => {
-  if (newMember.user.username == 'Catrophy' && newMember.user.presence.status == 'online' && oldMember.user.presence.status == 'offline') {
-    newMember.sendMessage("You're awesome");
-    console.log('I let Jerome know he\'s aewsome');
+  // if (newMember.user.username == 'Catrophy' && newMember.user.presence.status == 'online') {
+  //   newMember.sendMessage("You're awesome");
+  //   console.log('I let Jerome know he\'s aewsome');
+  // }
+
+  if (newMember.user.username == 'Vectron' && newMember.user.presence.status == 'online') {
+    newMember.sendMessage("\*<shitwizard pats you on the head.\>*\nGood job.");
+    console.log('Pat!');
   }
 });
 
@@ -62,4 +67,4 @@ bot.on('disconnect', () => {
 
 bot.on('error', e => { console.error(e); });
 
-bot.login("");
+bot.login(process.env.DISCORD_TOKEN);
