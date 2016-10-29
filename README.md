@@ -1,4 +1,5 @@
-# discord-shirley
+# discord-shirley ![status 😎](https://img.shields.io/badge/status-😎-61227B.svg?style=flat-square)
+
 Discord bot for Shirley Templars
 
 ## Instructions:
