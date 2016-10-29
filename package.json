@@ -1,0 +1,25 @@
+{
+  "name": "discord-shirley",
+  "version": "1.0.0",
+  "description": "Discord bot for Shirley Templars",
+  "main": "bot.js",
+  "dependencies": {
+    "discord.js": "^10.0.1"
+  },
+  "devDependencies": {
+    "discord.js": "^10.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MongooseDoom/discord-shirley.git"
+  },
+  "author": "Jackie Keiser",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MongooseDoom/discord-shirley/issues"
+  },
+  "homepage": "https://github.com/MongooseDoom/discord-shirley#readme"
+}
