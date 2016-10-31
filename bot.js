@@ -1,8 +1,8 @@
-var Discord = require("discord.js");
-var request = require("request");
+const Discord = require("discord.js");
+const request = require("request");
 
-var api = 'txsqd8scedz7z3922rc2cnsx26mz5n55';
-var bot = new Discord.Client();
+const api = 'txsqd8scedz7z3922rc2cnsx26mz5n55';
+const bot = new Discord.Client();
 const prefix = "!";
 var responses = {
   "!hello": ":sunglasses:",
@@ -43,18 +43,6 @@ bot.on("message", msg => {
   // Logging
   console.log(`${msg.author.username} used ${msg.content}`);
 
-});
-
-bot.on('presenceUpdate', (oldMember, newMember) => {
-  // if (newMember.user.username == 'Catrophy' && newMember.user.presence.status == 'online') {
-  //   newMember.sendMessage("You're awesome");
-  //   console.log('I let Jerome know he\'s aewsome');
-  // }
-
-  if (newMember.user.username == 'Vectron' && newMember.user.presence.status == 'online') {
-    newMember.sendMessage("\*<shitwizard pats you on the head.\>*\nGood job.");
-    console.log('Pat!');
-  }
 });
 
 bot.on('ready', () => {
