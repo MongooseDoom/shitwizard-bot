@@ -10,7 +10,7 @@ request("http://www.wowhead.com", function(error, response, body){
   var worldboss = $('.tiw-group-epiceliteworld .icon-both').eq(0).text();
   var worldbossLink = 'http://www.wowhead.com'+$('.tiw-group-epiceliteworld .icon-both a').eq(0).attr('href');
 
-  fs.writeFile("./info.html", `${worldboss}\n${worldbossLink}`, function(err) {
+  fs.writeFile(require('path').resolve(__dirname, 'info.html'), `${worldboss}\n${worldbossLink}`, function(err) {
       if(err) {
           return console.log(err);
       }
