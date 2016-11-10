@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const request = require("request");
+const fs = require('fs');
 const config = require("./config.json");
 
 const bot = new Discord.Client();
@@ -31,7 +32,7 @@ bot.on("message", msg => {
   // Get command
   let command = msg.content.split(" ")[0];
   command = command.slice(config.prefix.length);
-  console.log(`${msg.author.username} used ${command}`);
+  console.log(`${msg.author.username} used "${msg.content}"`);
 
   // Get arguments
   let args = msg.content.split(" ").slice(1);
@@ -75,18 +76,31 @@ bot.on("message", msg => {
     return;
   }
 
+  if (command === "worldboss") {
+    fs.readFile('./info.html', (err, data) => {
+      if (err) {
+        console.log(err);
+        msg.channel.sendMessage("I can't get the world boss right now.");
+      } else {
+        msg.channel.sendMessage(data);
+      }
+      return;
+    });
+  }
+
   if (command === "help") {
     msg.channel.sendMessage(`
 \`\`\`
 Character Commands:
   structure: !<command> [name] [realm - optional if on ${config.realm}]
-  ilvl    Returns character's ilevel
-  prof    Returns character's professions
+  ilvl      Returns character's ilevel
+  prof      Returns character's professions
 \`\`\`
 \`\`\`
 Basic Commands:
   structure: !<command>
-  help    Shows all the commands that shitwizard knows
+  help      Shows all the commands that shitwizard knows
+  worldboss Shows the world boss for this week
 \`\`\`
 Example of a command:
 \`\`\`
@@ -110,6 +124,10 @@ bot.on('ready', () => {
 
 bot.on('disconnect', () => {
   console.log('Disconnected! 😭');
+});
+
+bot.on('reconnecting', () => {
+  console.log('Reconnecting...');
 });
 
 bot.on('error', e => { console.error(e); });
