@@ -77,15 +77,58 @@ bot.on("message", msg => {
   }
 
   if (command === "worldboss") {
-    fs.readFile('./info.html', (err, data) => {
+    fs.readFile('./info.json', (err, data) => {
+      data = JSON.parse(data);
       if (err) {
         console.log(err);
-        msg.channel.sendMessage("I can't get the world boss right now.");
+        msg.channel.sendMessage("I can't load world info right now.");
+      } else if (data.worldboss === undefined) {
+        msg.channel.sendMessage("World boss info is not available right now");
       } else {
-        msg.channel.sendMessage(data);
+        msg.channel.sendMessage(`${data.worldboss.name} - ${data.worldboss.url}`);
       }
       return;
     });
+  }
+
+  if (command === "emissary") {
+    fs.readFile('./info.json', (err, data) => {
+      data = JSON.parse(data);
+      if (err) {
+        console.log(err);
+        msg.channel.sendMessage("I can't load world info right now.");
+      } else if (data.emissary.length === 0) {
+        msg.channel.sendMessage("Emissary info is not available right now");
+      } else {
+        var message = "";
+        for (var i = 0; i < data.emissary.length; i++) {
+          message += `${data.emissary[i].name} - ${data.emissary[i].url}\n`;
+        }
+        msg.channel.sendMessage(message);
+      }
+      return;
+    });
+  }
+
+  if (command === "realm") {
+    let realm = config.realm;
+    if (args[0]) {
+      realm = args[0];
+    }
+    request(`https://us.api.battle.net/wow/realm/status?locale=en_US&apikey=${config.api}&realms=${realm}`, function(error, response, body){
+      var data = JSON.parse(body);
+      if (error || response.statusCode !== 200 || data.realms.length > 1) {
+        console.log(error);
+        msg.channel.sendMessage(`I can't check the status of ${realm}`);
+      } else {
+        if (data.realms[0].status) {
+          msg.channel.sendMessage(`:white_check_mark: ${realm} is up`);
+        } else {
+          msg.channel.sendMessage(`:x: ${realm} is down`);
+        }
+      }
+    });
+    return;
   }
 
   if (command === "help") {
@@ -93,14 +136,16 @@ bot.on("message", msg => {
 \`\`\`
 Character Commands:
   structure: !<command> [name] [realm - optional if on ${config.realm}]
-  ilvl      Returns character's ilevel
-  prof      Returns character's professions
+  ilvl          Returns character's ilevel
+  prof          Returns character's professions
 \`\`\`
 \`\`\`
 Basic Commands:
-  structure: !<command>
-  help      Shows all the commands that shitwizard knows
-  worldboss Shows the world boss for this week
+  structure: !<command> [arguments]
+  help          Shows all the commands that shitwizard knows
+  worldboss     Shows the world boss for this week
+  emissary      Shows the current emissary quests
+  realm [realm] Shows realm status
 \`\`\`
 Example of a command:
 \`\`\`

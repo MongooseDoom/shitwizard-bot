@@ -7,14 +7,32 @@ request("http://www.wowhead.com", function(error, response, body){
     throw new Error("Couldn't reach wowhead.com");
   }
   const $ = cheerio.load(body);
-  var worldboss = $('.tiw-group-epiceliteworld .icon-both').eq(0).text();
-  var worldbossLink = 'http://www.wowhead.com'+$('.tiw-group-epiceliteworld .icon-both a').eq(0).attr('href');
+  var data = {};
 
-  fs.writeFile(require('path').resolve(__dirname, 'info.html'), `${worldboss}\n${worldbossLink}`, function(err) {
+  // Worldboss
+  if ($('.tiw-region-US .tiw-group-epiceliteworld').length > 0) {
+    data.worldboss = {
+        name: $('.tiw-region-US .tiw-group-epiceliteworld .icon-both').text(),
+        url: 'http://www.wowhead.com'+$('.tiw-region-US .tiw-group-epiceliteworld .icon-both a').eq(0).attr('href'),
+    }
+  }
+
+  // Emissary
+  data.emissary = [];
+  $('.tiw-region-US .tiw-group').each(function(i){
+    if (i <= 2) {
+      data.emissary.push({
+        name: $(this).find('b a').text(),
+        url: 'http://www.wowhead.com'+$(this).find('b a').attr('href'),
+      });
+    }
+  });
+
+  fs.writeFile(require('path').resolve(__dirname, 'info.json'), JSON.stringify(data), function(err) {
       if(err) {
           return console.log(err);
       }
 
-      console.log("--- The worldboss file was saved! ---");
+      console.log("--- The info file was saved! ---");
   });
 });
