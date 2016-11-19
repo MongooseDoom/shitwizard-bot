@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const request = require("request");
+const schedule = require('node-schedule');
 const fs = require('fs');
 const config = require("./config.json");
 
@@ -7,6 +8,16 @@ const bot = new Discord.Client();
 const responses = {
   "!hello": ":sunglasses:",
 };
+var announce = true;
+
+var j = schedule.scheduleJob({hour: 18, minute: 50, dayOfWeek: 3}, function(){
+  if (announce === true) {
+    bot.guilds.first().defaultChannel.sendMessage("It's probably raid time. I dunno.");
+    console.log('--- Raid Announcement ---');
+  } else {
+    announce = true;
+  }
+});
 
 function getCharacter(character, realm, fields){
   return new Promise((resolve, reject) => {
@@ -128,6 +139,14 @@ bot.on("message", msg => {
         }
       }
     });
+    return;
+  }
+
+  if (command === "raid") {
+    if (msg.author.username === "MongooseDoom") {
+      announce = args[0];
+      msg.channel.sendMessage(`announce is now ${announce}`);
+    }
     return;
   }
 
