@@ -102,7 +102,7 @@ bot.on("message", msg => {
     });
   }
 
-  if (command === "emissary") {
+  if (command === "emissary" || command === "emmisary" || command === "emmissary" ) {
     fs.readFile('./info.json', (err, data) => {
       data = JSON.parse(data);
       if (err) {
@@ -150,6 +150,19 @@ bot.on("message", msg => {
     return;
   }
 
+  if (command === "thanks") {
+    const voiceChannel = msg.member.voiceChannel;
+    if (voiceChannel) {
+      voiceChannel.join()
+       .then(connection => {
+         connection.playFile('./robes.mp3').on('end', () => {
+           voiceChannel.leave();
+         });
+       })
+       .catch(console.error);
+    }
+  }
+
   if (command === "help") {
     msg.channel.sendMessage(`
 \`\`\`
@@ -165,6 +178,7 @@ Basic Commands:
   worldboss     Shows the world boss for this week
   emissary      Shows the current emissary quests
   realm [realm] Shows realm status
+  thanks        Shitwizard is very grateful (must be in voice channel)
 \`\`\`
 Example of a command:
 \`\`\`
