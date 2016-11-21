@@ -283,35 +283,6 @@ bot.on("message", msg => {
     }, (error) => {
       msg.channel.sendMessage(`Sorry, I couldn't find ${args[0]}-${realm}`);
     });
-
-    // let embed = {
-    //   color: 3447003,
-    //   author: {
-    //     name: msg.author.username,
-    //     icon_url: msg.author.avatarURL // eslint-disable-line camelcase
-    //   },
-    //   description: '\nThis is a test embed to showcase what they look like and what they can do.\n[Code here](https://github.com/vzwGrey/discord-selfbot/blob/master/commands/embed.js)',
-    //   fields: [
-    //     {
-    //       name: 'Fields',
-    //       value: 'They can have different fields with small headlines.'
-    //     },
-    //     {
-    //       name: 'Masked links',
-    //       value: 'You can put [masked](https://github.com/vzwGrey/discord-selfbot/blob/master/commands/embed.js) links inside of rich embeds.'
-    //     },
-    //     {
-    //       name: 'Markdown',
-    //       value: 'You can put all the *usual* **__Markdown__** inside of them.'
-    //     }
-    //   ],
-    //   timestamp: new Date(),
-    //   footer: {
-    //     icon_url: msg.author.avatarURL, // eslint-disable-line camelcase
-    //   }
-    // };
-    //
-    // msg.channel.sendMessage('', { embed });
   }
 
   if (command === "help") {
@@ -321,6 +292,7 @@ Character Commands:
   structure: !<command> [name] [realm - optional if on ${config.realm}]
   ilvl          Returns character's ilevel
   prof          Returns character's professions
+  who           Returns detailed character information
 \`\`\`
 \`\`\`
 Basic Commands:
