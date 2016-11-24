@@ -182,28 +182,30 @@ bot.on("message", msg => {
 
   if (command === "thanks") {
     const voiceChannel = msg.member.voiceChannel;
-    if (voiceChannel) {
-      voiceChannel.join()
-       .then(connection => {
-         connection.playFile('./audio/robes.mp3').on('end', () => {
-           voiceChannel.leave();
-         });
-       })
-       .catch(console.error);
+    if (!voiceChannel) {
+      return msg.reply(`Please be in a voice channel first!`);
     }
+    voiceChannel.join()
+     .then(connection => {
+       connection.playFile('./audio/robes.mp3').on('end', () => {
+         voiceChannel.leave();
+       });
+     })
+     .catch(console.error);
   }
 
   if (command === "shitwizard") {
     const voiceChannel = msg.member.voiceChannel;
-    if (voiceChannel) {
-      voiceChannel.join()
-       .then(connection => {
-         connection.playFile('./audio/shitwizard.mp3').on('end', () => {
-           voiceChannel.leave();
-         });
-       })
-       .catch(console.error);
+    if (!voiceChannel) {
+      return msg.reply(`Please be in a voice channel first!`);
     }
+    voiceChannel.join()
+     .then(connection => {
+       connection.playFile('./audio/shitwizard.mp3').on('end', () => {
+         voiceChannel.leave();
+       });
+     })
+     .catch(console.error);
   }
 
   if (command === "who") {
