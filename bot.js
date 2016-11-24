@@ -34,6 +34,35 @@ function getCharacter(character, realm, fields){
   });
 }
 
+bot.on("presenceUpdate", (oldMember, newMember) => {
+  let guild = newMember.guild;
+  let wow = guild.roles.find("name", "Playing WoW");
+  let hots = guild.roles.find("name", "Playing HotS");
+  let overwatch = guild.roles.find("name", "Playing Overwatch");
+  if (!wow || !hots || !overwatch) {
+    return;
+  }
+
+  // Set role for WoW
+  if (newMember.user.presence.game && newMember.user.presence.game.name === "World of Warcraft") {
+    newMember.addRole(wow);
+  } else if (!newMember.user.presence.game && newMember.roles.has(wow.id)) {
+    newMember.removeRole(wow);
+  }
+  // Set role for HotS
+  if (newMember.user.presence.game && newMember.user.presence.game.name === "Heroes of the Storm") {
+    newMember.addRole(hots);
+  } else if (!newMember.user.presence.game && newMember.roles.has(hots.id)) {
+    newMember.removeRole(hots);
+  }
+  // Set role for Overwatch
+  if (newMember.user.presence.game && newMember.user.presence.game.name === "Overwatch") {
+    newMember.addRole(overwatch);
+  } else if (!newMember.user.presence.game && newMember.roles.has(overwatch.id)) {
+    newMember.removeRole(overwatch);
+  }
+});
+
 bot.on("message", msg => {
 
   // Exit if no prefix
