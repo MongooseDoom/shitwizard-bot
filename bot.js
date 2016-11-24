@@ -185,7 +185,20 @@ bot.on("message", msg => {
     if (voiceChannel) {
       voiceChannel.join()
        .then(connection => {
-         connection.playFile('./robes.mp3').on('end', () => {
+         connection.playFile('./audio/robes.mp3').on('end', () => {
+           voiceChannel.leave();
+         });
+       })
+       .catch(console.error);
+    }
+  }
+
+  if (command === "shitwizard") {
+    const voiceChannel = msg.member.voiceChannel;
+    if (voiceChannel) {
+      voiceChannel.join()
+       .then(connection => {
+         connection.playFile('./audio/shitwizard.mp3').on('end', () => {
            voiceChannel.leave();
          });
        })
