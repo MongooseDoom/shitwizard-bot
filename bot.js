@@ -3,20 +3,22 @@ const request = require("request");
 const schedule = require('node-schedule');
 const fs = require('fs');
 const config = require("./config.json");
+const moment = require('moment');
 
 const bot = new Discord.Client();
 const responses = {
   "!hello": ":sunglasses:",
 };
-var announce = true;
+var raid = true;
 const classColors = [ "c69b6d", "f48cba", "aad372", "fff468", "ffffff", "c41e3b", "2359ff", "68ccef", "9382c9", "00ffba", "ff7c0a"];
 
 var j = schedule.scheduleJob({hour: 18, minute: 50, dayOfWeek: 3}, function(){
-  if (announce === true) {
-    bot.guilds.first().defaultChannel.sendMessage("It's probably raid time. I dunno.");
+  if (raid === true) {
+    bot.guilds.first().defaultChannel.sendMessage("@raid Raid starts in 10 min!");
     console.log('--- Raid Announcement ---');
   } else {
-    announce = true;
+    bot.guilds.first().defaultChannel.sendMessage("@raid No raid this week! Go outside or something.");
+    raid = true;
   }
 });
 
@@ -65,10 +67,11 @@ bot.on("presenceUpdate", (oldMember, newMember) => {
 
 bot.on("message", msg => {
 
-  // Exit if no prefix
-  if(!msg.content.startsWith(config.prefix)) return;
   // Exit if message is from a bot
   if(msg.author.bot) return;
+
+  // Exit if no prefix
+  if(!msg.content.startsWith(config.prefix)) return;
 
   // Get command
   let command = msg.content.split(" ")[0];
@@ -173,10 +176,38 @@ bot.on("message", msg => {
   }
 
   if (command === "raid") {
-    if (msg.author.username === "MongooseDoom") {
-      announce = args[0];
-      msg.channel.sendMessage(`announce is now ${announce}`);
+    let raidCmd = args[0];
+    let raidTime = moment().day(3).hour(19);
+
+    if (raidCmd === 'remind') {
+      let raidRole = msg.guild.roles.find("name", "Raid");
+      if (msg.member.roles.has(raidRole.id)) {
+        msg.member.removeRole(raidRole);
+        msg.reply(`I won't notify you of raid announcements`);
+      } else {
+        msg.member.addRole(raidRole);
+        msg.reply(`Okay, I will notify you of raid announcements`);
+      }
     }
+
+    if (raidCmd === 'set' && msg.author.username === "MongooseDoom") {
+      if (args[1]) {
+        raid = args[1];
+        msg.author.sendMessage(`raid is now ${announce}`);
+      } else {
+        msg.reply('Please include a boolean value to set raid to. Example: `!raid set true`');
+      }
+
+    }
+
+    if (!raidCmd) {
+      if (raid) {
+        msg.channel.sendMessage(`Raid is ${moment().to(raidTime)}`);
+      } else {
+        msg.channel.sendMessage('No raid this week.\n');
+      }
+    }
+
     return;
   }
 
@@ -334,18 +365,26 @@ bot.on("message", msg => {
 \`\`\`
 Character Commands:
   structure: !<command> [name] [realm - optional if on ${config.realm}]
-  ilvl          Returns character's ilevel
-  prof          Returns character's professions
-  who           Returns detailed character information
+  ilvl            Returns character's ilevel
+  prof            Returns character's professions
+  who             Returns detailed character information
 \`\`\`
 \`\`\`
 Basic Commands:
   structure: !<command> [arguments]
-  help          Shows all the commands that shitwizard knows
-  worldboss     Shows the world boss for this week
-  emissary      Shows the current emissary quests
-  realm [realm] Shows realm status
-  thanks        Shitwizard is very grateful (must be in voice channel)
+  help            Shows all the commands that shitwizard knows
+  worldboss       Shows the world boss for this week
+  emissary        Shows the current emissary quests
+  realm [realm]   Shows realm status
+  thanks          Shitwizard is very grateful (must be in voice channel)
+\`\`\`
+\`\`\`
+Raid Commands:
+  structure: !raid <command> [arguments]
+  raid            Let you know when the next raid is
+  raid remind     Will notify you of raid announcements
+  raid set        Set whether there is a raid next week or not. (Needs permissions)
+
 \`\`\`
 Example of a command:
 \`\`\`
@@ -364,7 +403,7 @@ Submit an issue: https://github.com/MongooseDoom/discord-shirley/issues
 });
 
 bot.on('ready', () => {
-  console.log('I\'m ready! 😎');
+  console.log(`I'm ready! 😎 \nraid is set to ${raid}`);
 });
 
 bot.on('disconnect', () => {
