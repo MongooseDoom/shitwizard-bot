@@ -4,6 +4,7 @@ const schedule = require('node-schedule');
 const fs = require('fs');
 const config = require("./config.json");
 const moment = require('moment');
+const cheerio = require('cheerio');
 
 const bot = new Discord.Client();
 const responses = {
@@ -121,36 +122,53 @@ bot.on("message", msg => {
   }
 
   if (command === "worldboss") {
-    fs.readFile('./info.json', (err, data) => {
-      data = JSON.parse(data);
-      if (err) {
-        console.log(err);
-        msg.channel.sendMessage("I can't load world info right now.");
-      } else if (data.worldboss === undefined) {
-        msg.channel.sendMessage("World boss info is not available right now");
-      } else {
-        msg.channel.sendMessage(`${data.worldboss.name} - ${data.worldboss.url}`);
+    request("http://www.wowhead.com", function(error, response, body){
+      if (error || response.statusCode != 200) {
+        throw new Error("Couldn't access world boss info.");
+        return;
       }
-      return;
+      const $ = cheerio.load(body);
+      var embed = {
+        fields: [],
+      };
+
+      $('.tiw-region-US .tiw-group-epiceliteworld').each(function(i){
+        var name = $(this).find('.icon-both a').text();
+        var url = 'http://www.wowhead.com'+$(this).find('.icon-both a').attr('href');
+
+        embed.fields.push({
+          name: name,
+          value: url
+        });
+      });
+
+      msg.channel.sendMessage('', { embed });
     });
   }
 
   if (command === "emissary" || command === "emmisary" || command === "emmissary" ) {
-    fs.readFile('./info.json', (err, data) => {
-      data = JSON.parse(data);
-      if (err) {
-        console.log(err);
-        msg.channel.sendMessage("I can't load world info right now.");
-      } else if (data.emissary.length === 0) {
-        msg.channel.sendMessage("Emissary info is not available right now");
-      } else {
-        var message = "";
-        for (var i = 0; i < data.emissary.length; i++) {
-          message += `${data.emissary[i].name} - ${data.emissary[i].url}\n`;
-        }
-        msg.channel.sendMessage(message);
+    request("http://www.wowhead.com", function(error, response, body){
+      if (error || response.statusCode != 200) {
+        throw new Error("Couldn't access emissary info.");
+        return;
       }
-      return;
+      const $ = cheerio.load(body);
+      var embed = {
+        fields: [],
+      };
+
+      $('.tiw-region-US .tiw-group-wrapper-emissary .tiw-heading').each(function(i){
+        var name = $(this).find('th a').text();
+        var url = 'http://www.wowhead.com'+$(this).find('th a').attr('href');
+        var time = $(this).find('.tiw-line-ending-short').text();
+
+        embed.fields.push({
+          name: `${name} (${time})`,
+          value: url
+        });
+      });
+
+      msg.channel.sendMessage('', { embed });
     });
   }
 
