@@ -37,6 +37,12 @@ function getCharacter(character, realm, fields){
   });
 }
 
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 bot.on("presenceUpdate", (oldMember, newMember) => {
   let guild = newMember.guild;
   let wow = guild.roles.find("name", "Playing WoW");
@@ -195,6 +201,15 @@ bot.on("message", msg => {
 
       msg.channel.sendMessage('', { embed });
     });
+  }
+
+  if (command === "roll") {
+    let max = 100;
+    if (args[0]) {
+      max = args[0];
+    }
+
+    msg.reply(`${getRandomInt(1,max)}`);
   }
 
   if (command === "realm") {
