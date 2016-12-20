@@ -1,6 +1,8 @@
 const config = require("../config.json");
 const toon = require("../helpers/toon");
 
+const classColors = [ "c69b6d", "f48cba", "aad372", "fff468", "ffffff", "c41e3b", "2359ff", "68ccef", "9382c9", "00ffba", "ff7c0a"];
+
 exports.run = function(bot, msg, args = []) {
   let realm = config.realm;
   if (args[1]) {

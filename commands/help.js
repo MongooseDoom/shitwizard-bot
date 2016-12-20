@@ -21,6 +21,6 @@ exports.conf = {
 
 exports.help = {
   name : "help",
-  description: "",
+  description: "Displays a list of all the commands shitwizard knows",
   usage: "help [command]"
 };

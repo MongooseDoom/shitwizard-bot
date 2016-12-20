@@ -19,6 +19,6 @@ exports.conf = {
 
 exports.help = {
   name : "shitwizard",
-  description: "Shitwizard makes some...noises...",
+  description: "Shitwizard makes some...noises...(must be in voice channel)",
   usage: "shitwizard"
 };
