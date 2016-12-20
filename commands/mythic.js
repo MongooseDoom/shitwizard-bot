@@ -1,4 +1,5 @@
 const config = require("../config.json");
+const affixes = require("../helpers/affixes.json");
 const request = require("request");
 const cheerio = require('cheerio');
 
@@ -9,17 +10,20 @@ exports.run = function(bot, msg, args = []) {
       return;
     }
     const $ = cheerio.load(body);
-    var embed = {
+    let embed = {
       fields: [],
     };
 
     $('.tiw-region-US .tiw-group-mythicaffix tr .icon-both').each(function(i){
-      var name = $(this).find('a').text();
-      var url = 'http://www.wowhead.com'+$(this).find('a').attr('href');
+      let name = $(this).find('a').text().trim();
+      let desc = "http://www.wowhead.com"+$(this).find('a').attr('href');
+      if (affixes[name].length) {
+        desc = affixes[name];
+      }
 
       embed.fields.push({
         name: name,
-        value: url
+        value: desc
       });
     });
 
@@ -29,7 +33,7 @@ exports.run = function(bot, msg, args = []) {
 
 exports.conf = {
   enabled: true, // not used yet
-  aliases: [],
+  aliases: ["affixes"],
 };
 
 exports.help = {

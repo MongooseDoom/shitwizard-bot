@@ -14,9 +14,9 @@ exports.run = function(bot, msg, args = []) {
      };
 
      $('.tiw-region-US .tiw-group-wrapper-emissary .tiw-heading').each(function(i){
-       var name = $(this).find('th a').text();
+       var name = $(this).find('th a').text().trim();
        var url = 'http://www.wowhead.com'+$(this).find('th a').attr('href');
-       var time = $(this).find('.tiw-line-ending-short').text();
+       var time = $(this).find('.tiw-line-ending-short').text().trim();
 
        embed.fields.push({
          name: `${name} (${time})`,

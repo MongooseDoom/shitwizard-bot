@@ -14,7 +14,7 @@ exports.run = function(bot, msg, args = []) {
     };
 
     $('.tiw-region-US .tiw-group-epiceliteworld').each(function(i){
-      var name = $(this).find('.icon-both a').text();
+      var name = $(this).find('.icon-both a').text().trim();
       var url = 'http://www.wowhead.com'+$(this).find('.icon-both a').attr('href');
 
       embed.fields.push({
