@@ -12,7 +12,7 @@ exports.run = function(bot, msg, args = []) {
 
   request(`http://api.openweathermap.org/data/2.5/weather?${query}=${location}&units=imperial&APPID=${process.env.WEATHER_TOKEN}`, function(error, response, body){
     if (error || response.statusCode != 200) {
-      throw new Error(`Couldn't access weather for ${city}.`);
+      throw new Error(`Couldn't access weather for ${location}.`);
       return;
     }
     var data = JSON.parse(body);
