@@ -3,17 +3,21 @@ const bot = new Discord.Client({ fetchAllMembers: true });
 const config = require("./config.json");
 const fs = require('fs');
 const moment = require('moment');
-
-// const request = require("request");
-// const schedule = require('node-schedule');
-// const fs = require('fs');
-// const moment = require('moment');
-// const cheerio = require('cheerio');
-
+const schedule = require('node-schedule');
 
 const log = function(msg) {
   console.log(`[${moment().format("YYYY-MM-DD HH:mm:ss")}] ${msg}`);
 };
+
+var j = schedule.scheduleJob({hour: 18, minute: 50, dayOfWeek: 3}, function(){
+  if (config.raid === true) {
+    bot.guilds.first().defaultChannel.sendMessage("@raid Raid starts in 10 min!");
+    console.log('--- Raid Announcement ---');
+  } else {
+    bot.guilds.first().defaultChannel.sendMessage("@raid No raid this week! Go outside or something.");
+    config.raid = true;
+  }
+});
 
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
@@ -64,6 +68,34 @@ bot.on('message', function(msg){
   }
 });
 
+bot.on("presenceUpdate", (oldMember, newMember) => {
+  let guild = newMember.guild;
+  let wow = guild.roles.find("name", "Playing WoW");
+  let hots = guild.roles.find("name", "Playing HotS");
+  let overwatch = guild.roles.find("name", "Playing Overwatch");
+  if (!wow || !hots || !overwatch) {
+    return;
+  }
+
+  // Set role for WoW
+  if (newMember.user.presence.game && newMember.user.presence.game.name === "World of Warcraft") {
+    newMember.addRole(wow);
+  } else if (!newMember.user.presence.game && newMember.roles.has(wow.id)) {
+    newMember.removeRole(wow);
+  }
+  // Set role for HotS
+  if (newMember.user.presence.game && newMember.user.presence.game.name === "Heroes of the Storm") {
+    newMember.addRole(hots);
+  } else if (!newMember.user.presence.game && newMember.roles.has(hots.id)) {
+    newMember.removeRole(hots);
+  }
+  // Set role for Overwatch
+  if (newMember.user.presence.game && newMember.user.presence.game.name === "Overwatch") {
+    newMember.addRole(overwatch);
+  } else if (!newMember.user.presence.game && newMember.roles.has(overwatch.id)) {
+    newMember.removeRole(overwatch);
+  }
+});
 
 bot.on('ready', () => {
   log(`Shitwizard is ready! 😎 \n`);
