@@ -19,7 +19,7 @@ exports.conf = {
 };
 
 exports.help = {
-  name : "roll",
-  description: "Returns a random number from 1-100 or from 1 to provided max",
-  usage: "roll <max number>"
+  name : 'roll',
+  description: 'Returns a random number from 1-100 or from 1 to provided max',
+  usage: 'roll <max number>'
 };

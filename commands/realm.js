@@ -1,5 +1,5 @@
-const config = require("../config.json");
-const request = require("request");
+const config = require('../config.json');
+const request = require('request');
 
 exports.run = function(bot, msg, args = []) {
   let realm = config.realm;
@@ -27,7 +27,7 @@ exports.conf = {
 };
 
 exports.help = {
-  name : "realm",
-  description: "Returns WoW Realm Status",
+  name : 'realm',
+  description: 'Returns WoW Realm Status',
   usage: `realm <realm - optional if on ${config.realm}>`
 };

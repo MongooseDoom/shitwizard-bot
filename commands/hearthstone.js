@@ -1,21 +1,21 @@
 var unirest = require('unirest');
 
 const rarity = [
-  "Free", "Common", "Rare", "Epic", "Legendary"
+  'Free', 'Common', 'Rare', 'Epic', 'Legendary'
 ];
 const rarityColors = [
-  "808080", // free
-  "ffffff", // common
-  "0070DD", // rare
-  "A335EE", // epic
-  "FF8000", // legendary
+  '808080', // free
+  'ffffff', // common
+  '0070DD', // rare
+  'A335EE', // epic
+  'FF8000', // legendary
 ];
 
 exports.run = function(bot, msg, args = []) {
-  let name = args.join(" ");
+  let name = args.join(' ');
 
   unirest.get(`https://omgvamp-hearthstone-v1.p.mashape.com/cards/search/${name}`)
-  .header("X-Mashape-Key", process.env.MASHAPE_TOKEN)
+  .header('X-Mashape-Key', process.env.MASHAPE_TOKEN)
   .end(function (result) {
     let card = result.body[0];
     let colorIndex = rarity.findIndex(function(item){
@@ -29,12 +29,12 @@ exports.run = function(bot, msg, args = []) {
       },
       fields: [
         {
-          name: "Set",
+          name: 'Set',
           value: card.cardSet,
           inline: true,
         },
         {
-          name: "Class",
+          name: 'Class',
           value: card.playerClass,
           inline: true,
         },
@@ -46,7 +46,7 @@ exports.run = function(bot, msg, args = []) {
 
     if (card.howToGet) {
       embed.fields.push({
-        name: "How to get",
+        name: 'How to get',
         value: card.howToGet
       });
     }
@@ -58,11 +58,11 @@ exports.run = function(bot, msg, args = []) {
 
 exports.conf = {
   enabled: true, // not used yet
-  aliases: ["hearthstone"],
+  aliases: ['hearthstone'],
 };
 
 exports.help = {
-  name : "hs",
-  description: "Displays information for a hearthstone card",
-  usage: "hs <cardname>"
+  name : 'hs',
+  description: 'Displays information for a hearthstone card',
+  usage: 'hs <cardname>'
 };

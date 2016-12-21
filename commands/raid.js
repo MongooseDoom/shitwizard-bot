@@ -1,4 +1,4 @@
-const config = require("../config.json");
+const config = require('../config.json');
 const moment = require('moment');
 
 let raid = config.raid;
@@ -8,7 +8,7 @@ exports.run = function(bot, msg, args = []) {
   let raidTime = moment().day(3).hour(19);
 
   if (raidCmd === 'remind') {
-    let raidRole = msg.guild.roles.find("name", "Raid");
+    let raidRole = msg.guild.roles.find('name', 'Raid');
     if (msg.member.roles.has(raidRole.id)) {
       msg.member.removeRole(raidRole);
       msg.reply(`I won't notify you of raid announcements`);
@@ -18,7 +18,7 @@ exports.run = function(bot, msg, args = []) {
     }
   }
 
-  if (raidCmd === 'set' && msg.author.username === "MongooseDoom") {
+  if (raidCmd === 'set' && msg.author.username === 'MongooseDoom') {
     if (args[1]) {
       raid = args[1];
       msg.author.sendMessage(`raid is now ${raid}`);
@@ -28,7 +28,7 @@ exports.run = function(bot, msg, args = []) {
 
   }
 
-  if (raidCmd === 'get' && msg.author.username === "MongooseDoom") {
+  if (raidCmd === 'get' && msg.author.username === 'MongooseDoom') {
     msg.author.sendMessage(`raid is ${raid}`);
   }
 
@@ -47,7 +47,7 @@ exports.conf = {
 };
 
 exports.help = {
-  name : "raid",
-  description: "Check next raid time or set a raid reminder",
-  usage: "raid\nraid remind\n"
+  name : 'raid',
+  description: 'Check next raid time or set a raid reminder',
+  usage: 'raid\nraid remind\n'
 };

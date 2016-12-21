@@ -1,23 +1,27 @@
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 const bot = new Discord.Client({ fetchAllMembers: true });
-const config = require("./config.json");
+const config = require('./config.json');
 const fs = require('fs');
 const moment = require('moment');
 const schedule = require('node-schedule');
+const pushover = require('./helpers/pushover');
 
 const log = function(msg) {
-  console.log(`[${moment().format("YYYY-MM-DD HH:mm:ss")}] ${msg}`);
+  console.log(`[${moment().format('YYYY-MM-DD HH:mm:ss')}] ${msg}`);
 };
 
+/* eslint-disable */
 var j = schedule.scheduleJob({hour: 18, minute: 50, dayOfWeek: 3}, function(){
   if (config.raid === true) {
-    bot.guilds.first().defaultChannel.sendMessage("@raid Raid starts in 10 min!");
+    bot.guilds.first().defaultChannel.sendMessage('@raid Raid starts in 10 min!');
     console.log('--- Raid Announcement ---');
+    pushover.send(`Sending raid announcment`);
   } else {
-    bot.guilds.first().defaultChannel.sendMessage("@raid No raid this week! Go outside or something.");
+    bot.guilds.first().defaultChannel.sendMessage('@raid No raid this week! Go outside or something.');
     config.raid = true;
   }
 });
+/* eslint-enable */
 
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
@@ -44,14 +48,14 @@ bot.on('message', function(msg){
   if(!msg.content.startsWith(config.prefix)) return;
 
   // Log what was used
-  log(`${msg.author.username} used "${msg.content}"`);
+  log(`${msg.author.username} used '${msg.content}'`);
 
   // Get command
-  let command = msg.content.split(" ")[0];
+  let command = msg.content.split(' ')[0];
   command = command.slice(config.prefix.length);
 
   // Get arguments
-  let args = msg.content.split(" ").slice(1);
+  let args = msg.content.split(' ').slice(1);
 
   let cmd;
 
@@ -60,6 +64,8 @@ bot.on('message', function(msg){
     cmd = bot.commands.get(command);
   } else if (bot.aliases.get(command)) {
     cmd = bot.commands.get(bot.aliases.get(command));
+  } else {
+    pushover.send(`Suggestion: ${msg.author.username} used '${msg.content}'`);
   }
 
   // Run command
@@ -68,47 +74,52 @@ bot.on('message', function(msg){
   }
 });
 
-bot.on("presenceUpdate", (oldMember, newMember) => {
+bot.on('presenceUpdate', function(oldMember, newMember) {
   let guild = newMember.guild;
-  let wow = guild.roles.find("name", "Playing WoW");
-  let hots = guild.roles.find("name", "Playing HotS");
-  let overwatch = guild.roles.find("name", "Playing Overwatch");
+  let wow = guild.roles.find('name', 'Playing WoW');
+  let hots = guild.roles.find('name', 'Playing HotS');
+  let overwatch = guild.roles.find('name', 'Playing Overwatch');
   if (!wow || !hots || !overwatch) {
     return;
   }
 
   // Set role for WoW
-  if (newMember.user.presence.game && newMember.user.presence.game.name === "World of Warcraft") {
+  if (newMember.user.presence.game && newMember.user.presence.game.name === 'World of Warcraft') {
     newMember.addRole(wow);
   } else if (!newMember.user.presence.game && newMember.roles.has(wow.id)) {
     newMember.removeRole(wow);
   }
   // Set role for HotS
-  if (newMember.user.presence.game && newMember.user.presence.game.name === "Heroes of the Storm") {
+  if (newMember.user.presence.game && newMember.user.presence.game.name === 'Heroes of the Storm') {
     newMember.addRole(hots);
   } else if (!newMember.user.presence.game && newMember.roles.has(hots.id)) {
     newMember.removeRole(hots);
   }
   // Set role for Overwatch
-  if (newMember.user.presence.game && newMember.user.presence.game.name === "Overwatch") {
+  if (newMember.user.presence.game && newMember.user.presence.game.name === 'Overwatch') {
     newMember.addRole(overwatch);
   } else if (!newMember.user.presence.game && newMember.roles.has(overwatch.id)) {
     newMember.removeRole(overwatch);
   }
 });
 
-bot.on('ready', () => {
+bot.on('ready', function() {
   log(`Shitwizard is ready! 😎 \n`);
 });
 
-bot.on('disconnect', () => {
+bot.on('disconnect', function() {
   log('Disconnected! 😭');
+  pushover.send(`Shitwizard disconnected! 😭`);
 });
 
-bot.on('reconnecting', () => {
+bot.on('reconnecting', function() {
   log('Reconnecting...');
+  pushover.send(`Shitwizard reconnecting...`);
 });
 
-bot.on('error', e => { console.error(e); });
+bot.on('error', function(e) {
+  console.error(e);
+  pushover.send(`Shitwizard error: ${e}`);
+});
 
 bot.login(process.env.DISCORD_TOKEN);

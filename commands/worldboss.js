@@ -1,19 +1,17 @@
-const config = require("../config.json");
-const request = require("request");
+const request = require('request');
 const cheerio = require('cheerio');
 
 exports.run = function(bot, msg, args = []) {
-  request("http://www.wowhead.com", function(error, response, body){
+  request('http://www.wowhead.com', function(error, response, body){
     if (error || response.statusCode != 200) {
-      throw new Error("Couldn't access world boss info.");
-      return;
+      throw new Error('Couldn\'t access world boss info.');
     }
     const $ = cheerio.load(body);
     var embed = {
       fields: [],
     };
 
-    $('.tiw-region-US .tiw-group-epiceliteworld').each(function(i){
+    $('.tiw-region-US .tiw-group-epiceliteworld').each(function(){
       var name = $(this).find('.icon-both a').text().trim();
       var url = 'http://www.wowhead.com'+$(this).find('.icon-both a').attr('href');
 
@@ -33,7 +31,7 @@ exports.conf = {
 };
 
 exports.help = {
-  name : "worldboss",
-  description: "Displays this week's worldboss for WoW",
-  usage: "worldboss"
+  name : 'worldboss',
+  description: 'Displays this week\'s worldboss for WoW',
+  usage: 'worldboss'
 };

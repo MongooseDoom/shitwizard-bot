@@ -18,7 +18,7 @@ exports.conf = {
 };
 
 exports.help = {
-  name : "thanks",
-  description: "Shitwizard is very grateful (must be in voice channel)",
-  usage: "thanks"
+  name : 'thanks',
+  description: 'Shitwizard is very grateful (must be in voice channel)',
+  usage: 'thanks'
 };

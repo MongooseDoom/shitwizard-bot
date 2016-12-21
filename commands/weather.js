@@ -1,8 +1,7 @@
-const config = require("../config.json");
-const request = require("request");
+const request = require('request');
 
 exports.run = function(bot, msg, args = []) {
-  let location = args.join(" ");
+  let location = args.join(' ');
   let query = 'q';
 
   let firstChar = location.charAt(0);
@@ -13,7 +12,6 @@ exports.run = function(bot, msg, args = []) {
   request(`http://api.openweathermap.org/data/2.5/weather?${query}=${location}&units=imperial&APPID=${process.env.WEATHER_TOKEN}`, function(error, response, body){
     if (error || response.statusCode != 200) {
       throw new Error(`Couldn't access weather for ${location}.`);
-      return;
     }
     var data = JSON.parse(body);
 
@@ -44,7 +42,7 @@ exports.conf = {
 };
 
 exports.help = {
-  name : "weather",
-  description: "Returns the weather by city or zip",
-  usage: "weather [city,country or zip]"
+  name : 'weather',
+  description: 'Returns the weather by city or zip',
+  usage: 'weather [city,country or zip]'
 };

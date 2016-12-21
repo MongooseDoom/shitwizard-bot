@@ -1,5 +1,5 @@
-const config = require("../config.json");
-const toon = require("../helpers/toon");
+const config = require('../config.json');
+const toon = require('../helpers/toon');
 
 exports.run = function(bot, msg, args = []) {
   let realm = config.realm;
@@ -21,7 +21,7 @@ exports.conf = {
 };
 
 exports.help = {
-  name : "ilvl",
-  description: "Returns WoW character's ilevel",
+  name : 'ilvl',
+  description: 'Returns WoW character\'s ilevel',
   usage: `ilvl <name> <realm - optional if on ${config.realm}>`
 };

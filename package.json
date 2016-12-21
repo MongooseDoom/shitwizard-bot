@@ -9,9 +9,14 @@
   "devDependencies": {
     "cheerio": "^0.22.0",
     "discord.js": "github:hydrabolt/discord.js#indev",
+    "eslint": "^3.12.2",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-standard": "^2.0.1",
     "moment": "^2.17.0",
     "node-opus": "^0.2.4",
     "node-schedule": "^1.2.0",
+    "pushover-promise": "^1.0.0",
     "request": "^2.76.0",
     "unirest": "^0.5.1"
   },

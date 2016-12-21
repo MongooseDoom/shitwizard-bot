@@ -1,5 +1,5 @@
-const config = require("../config.json");
-const request = require("request");
+const config = require('../config.json');
+const request = require('request');
 
 const get = function (character, realm, fields){
   return new Promise((resolve, reject) => {
@@ -13,6 +13,6 @@ const get = function (character, realm, fields){
       }
     });
   });
-}
+};
 
 module.exports.get = get;

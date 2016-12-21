@@ -1,13 +1,11 @@
-const config = require("../config.json");
-const affixes = require("../helpers/affixes.json");
-const request = require("request");
+const affixes = require('../helpers/affixes.json');
+const request = require('request');
 const cheerio = require('cheerio');
 
 exports.run = function(bot, msg, args = []) {
-  request("http://www.wowhead.com", function(error, response, body){
+  request('http://www.wowhead.com', function(error, response, body){
     if (error || response.statusCode != 200) {
-      throw new Error("Couldn't access mythic+ affixes.");
-      return;
+      throw new Error('Couldn\'t access mythic+ affixes.');
     }
     const $ = cheerio.load(body);
     let embed = {
@@ -16,7 +14,7 @@ exports.run = function(bot, msg, args = []) {
 
     $('.tiw-region-US .tiw-group-mythicaffix tr .icon-both').each(function(i){
       let name = $(this).find('a').text().trim();
-      let desc = "http://www.wowhead.com"+$(this).find('a').attr('href');
+      let desc = 'http://www.wowhead.com'+$(this).find('a').attr('href');
       if (affixes[name].length) {
         desc = affixes[name];
       }
@@ -33,11 +31,11 @@ exports.run = function(bot, msg, args = []) {
 
 exports.conf = {
   enabled: true, // not used yet
-  aliases: ["affixes"],
+  aliases: ['affixes'],
 };
 
 exports.help = {
-  name : "mythic",
-  description: "Displays this week's mythic+ affixes for WoW",
-  usage: "mythic"
+  name : 'mythic',
+  description: 'Displays this week\'s mythic+ affixes for WoW',
+  usage: 'mythic'
 };
