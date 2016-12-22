@@ -11,14 +11,16 @@ exports.run = function(bot, msg, args = []) {
       fields: [],
     };
 
-    $('.tiw-region-US .tiw-group-holiday tr:not(.tiw-heading)').each(function(i){
-      var name = $(this).find('th a').text().trim();
-      var url = 'http://www.wowhead.com'+$(this).find('th a').attr('href');
+    $('.tiw-region-US .tiw-group-holiday tr').each(function(i){
+      var name = $(this).find('td a').text().trim();
+      var url = 'http://www.wowhead.com'+$(this).find('td a').attr('href');
 
-      embed.fields.push({
-        name: `${name}`,
-        value: url
-      });
+      if (name && url) {
+        embed.fields.push({
+          name: `${name}`,
+          value: url
+        });
+      }
     });
 
     msg.channel.sendMessage('', { embed });

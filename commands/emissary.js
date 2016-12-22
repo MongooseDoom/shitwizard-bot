@@ -16,10 +16,12 @@ exports.run = function(bot, msg, args = []) {
       var url = 'http://www.wowhead.com'+$(this).find('th a').attr('href');
       var time = $(this).find('.tiw-line-ending-short').text().trim();
 
-      embed.fields.push({
-        name: `${name} (${time})`,
-        value: url
-      });
+      if (name && url && time) {
+        embed.fields.push({
+          name: `${name} (${time})`,
+          value: url
+        });  
+      }
     });
 
     msg.channel.sendMessage('', { embed });

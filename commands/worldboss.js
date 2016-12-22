@@ -15,10 +15,12 @@ exports.run = function(bot, msg, args = []) {
       var name = $(this).find('.icon-both a').text().trim();
       var url = 'http://www.wowhead.com'+$(this).find('.icon-both a').attr('href');
 
-      embed.fields.push({
-        name: name,
-        value: url
-      });
+      if (name && url) {
+        embed.fields.push({
+          name: name,
+          value: url
+        });  
+      }
     });
 
     msg.channel.sendMessage('', { embed });
