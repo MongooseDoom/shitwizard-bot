@@ -11,7 +11,7 @@ exports.run = function(bot, msg, args = []) {
       fields: [],
     };
 
-    $('.tiw-region-US .tiw-group-holiday .tiw-heading').each(function(i){
+    $('.tiw-region-US .tiw-group-holiday tr:not(.tiw-heading)').each(function(i){
       var name = $(this).find('th a').text().trim();
       var url = 'http://www.wowhead.com'+$(this).find('th a').attr('href');
 
