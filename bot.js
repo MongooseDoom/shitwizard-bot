@@ -47,6 +47,11 @@ bot.on('message', function(msg){
   // Exit if message is from a bot
   if(msg.author.bot) return;
 
+  // Add reaction when people are mad at shitwizard
+  if(msg.content.indexOf('damn') != -1 && msg.content.indexOf('shitwizard')) {
+    msg.react('😎');
+  }
+
   // Exit if no prefix
   if(!msg.content.startsWith(config.prefix)) return;
 
@@ -82,7 +87,8 @@ bot.on('presenceUpdate', function(oldMember, newMember) {
   let wow = guild.roles.find('name', 'Playing WoW');
   let hots = guild.roles.find('name', 'Playing HotS');
   let overwatch = guild.roles.find('name', 'Playing Overwatch');
-  if (!wow || !hots || !overwatch) {
+  let games = guild.roles.find('name', 'Playing Games');
+  if (!wow || !hots || !overwatch || !games) {
     return;
   }
 
@@ -104,10 +110,17 @@ bot.on('presenceUpdate', function(oldMember, newMember) {
   } else if (!newMember.user.presence.game && newMember.roles.has(overwatch.id)) {
     newMember.removeRole(overwatch);
   }
+  // Set role for other games
+  if (newMember.user.presence.game) {
+    newMember.addRole(games);
+  } else if (!newMember.user.presence.game && newMember.roles.has(games.id)) {
+    newMember.removeRole(games);
+  }
 });
 
 bot.on('ready', function() {
   log(`Shitwizard is ready! 😎 \n`);
+  pushover.send(`Shitwizard is ready! 😎`);
 });
 
 bot.on('disconnect', function() {
