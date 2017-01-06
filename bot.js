@@ -5,6 +5,7 @@ const fs = require('fs');
 const moment = require('moment');
 const schedule = require('node-schedule');
 const pushover = require('./helpers/pushover');
+const display = require('./helpers/display-o-tron');
 
 const log = function(msg) {
   console.log(`[${moment().format('YYYY-MM-DD HH:mm:ss')}] ${msg}`);
@@ -57,6 +58,7 @@ bot.on('message', function(msg){
 
   // Log what was used
   log(`${msg.author.username} used '${msg.content}'`);
+  display.write([msg.author.username, msg.content], [255, 241, 109]);
 
   // Get command
   let command = msg.content.split(' ')[0];
@@ -121,16 +123,19 @@ bot.on('presenceUpdate', function(oldMember, newMember) {
 bot.on('ready', function() {
   log(`Shitwizard is ready! 😎 \n`);
   pushover.send(`Shitwizard is ready! 😎`);
+  display.write('Online!', [171, 229, 57]);
 });
 
 bot.on('disconnect', function() {
   log('Disconnected! 😭');
   pushover.send(`Shitwizard disconnected! 😭`);
+  display.write('Disconnected!', [236, 35, 21]);
 });
 
 bot.on('reconnecting', function() {
   log('Reconnecting...');
   pushover.send(`Shitwizard reconnecting...`);
+  display.write('Reconnecting...', [235, 86, 226]);
 });
 
 bot.on('error', function(e) {
