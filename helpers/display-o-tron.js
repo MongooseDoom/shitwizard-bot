@@ -16,3 +16,11 @@ exports.write = function(msg, rgb = [162, 80, 255]){
   }
   dothat.kill(false);
 };
+
+exports.reset = function(){
+  dothat.reset();
+};
+
+exports.changeColor = function(red, green, blue){
+  dothat.backlight.setToRGB(red, green, blue);
+};

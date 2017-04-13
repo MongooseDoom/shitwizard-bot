@@ -56,13 +56,15 @@ bot.on('message', function(msg){
   // Exit if no prefix
   if(!msg.content.startsWith(config.prefix)) return;
 
-  // Log what was used
-  log(`${msg.author.username} used '${msg.content}'`);
-  display.write([msg.author.username, msg.content], [255, 241, 109]);
-
   // Get command
   let command = msg.content.split(' ')[0];
   command = command.slice(config.prefix.length);
+
+  // Log what was used
+  log(`${msg.author.username} used '${msg.content}'`);
+  if (command != 'display') {
+    display.write([msg.author.username, msg.content], [255, 241, 109]);
+  }
 
   // Get arguments
   let args = msg.content.split(' ').slice(1);
