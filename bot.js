@@ -6,6 +6,7 @@ const moment = require('moment');
 const schedule = require('node-schedule');
 const pushover = require('./helpers/pushover');
 const display = require('./helpers/display-o-tron');
+const presence = require('./helpers/presence');
 
 const log = function(msg) {
   console.log(`[${moment().format('YYYY-MM-DD HH:mm:ss')}] ${msg}`);
@@ -87,45 +88,20 @@ bot.on('message', function(msg){
 });
 
 bot.on('presenceUpdate', function(oldMember, newMember) {
-  let guild = newMember.guild;
-  let wow = guild.roles.find('name', 'Playing WoW');
-  let hots = guild.roles.find('name', 'Playing HotS');
-  let overwatch = guild.roles.find('name', 'Playing Overwatch');
-  let games = guild.roles.find('name', 'Playing Games');
-  if (!wow || !hots || !overwatch || !games) {
-    return;
-  }
-
-  // Set role for WoW
-  if (newMember.user.presence.game && newMember.user.presence.game.name === 'World of Warcraft') {
-    newMember.addRole(wow);
-  } else if (!newMember.user.presence.game && newMember.roles.has(wow.id)) {
-    newMember.removeRole(wow);
-  }
-  // Set role for HotS
-  if (newMember.user.presence.game && newMember.user.presence.game.name === 'Heroes of the Storm') {
-    newMember.addRole(hots);
-  } else if (!newMember.user.presence.game && newMember.roles.has(hots.id)) {
-    newMember.removeRole(hots);
-  }
-  // Set role for Overwatch
-  if (newMember.user.presence.game && newMember.user.presence.game.name === 'Overwatch') {
-    newMember.addRole(overwatch);
-  } else if (!newMember.user.presence.game && newMember.roles.has(overwatch.id)) {
-    newMember.removeRole(overwatch);
-  }
-  // Set role for other games
-  if (newMember.user.presence.game) {
-    newMember.addRole(games);
-  } else if (!newMember.user.presence.game && newMember.roles.has(games.id)) {
-    newMember.removeRole(games);
-  }
+  presence.update(newMember);
 });
 
 bot.on('ready', function() {
+  let guild = bot.guilds.first();
+
   log(`Shitwizard is ready! 😎 \n`);
   pushover.send(`Shitwizard is ready! 😎`);
   display.write('Online!', [171, 229, 57]);
+
+  // Update member presence on ready
+  guild.members.forEach(function(member){
+    presence.update(member);
+  });
 });
 
 bot.on('disconnect', function() {
