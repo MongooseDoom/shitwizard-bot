@@ -22,7 +22,7 @@ var j = schedule.scheduleJob({hour: 18, minute: 50, dayOfWeek: 3}, function(){
     console.log('--- Raid Announcement ---');
     pushover.send(`Sending raid announcment`);
   } else {
-    bot.guilds.first().defaultChannel.sendMessage(`${raid} No raid this week! Go outside or something.`);
+    // bot.guilds.first().defaultChannel.sendMessage(`${raid} No raid this week! Go outside or something.`);
     config.raid = true;
   }
 });
@@ -95,6 +95,7 @@ bot.on('ready', function() {
   let guild = bot.guilds.first();
 
   log(`Shitwizard is ready! 😎 \n`);
+  log(process.env.RASPBERRYPI);
   pushover.send(`Shitwizard is ready! 😎`);
   display.write('Online!', [171, 229, 57]);
 

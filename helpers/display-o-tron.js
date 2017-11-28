@@ -4,6 +4,7 @@ const JVSDisplayOTron = require('jvsdisplayotron');
 const dothat = new JVSDisplayOTron.DOTHAT();
 
 exports.write = function(msg, rgb = [162, 80, 255]){
+  if (process.env.RASPBERRYPI != 'true') { return; }
   dothat.lcd.setContrast(45);
   dothat.backlight.setToRGB(rgb[0], rgb[1], rgb[2]);
   if (Array.isArray(msg)) {

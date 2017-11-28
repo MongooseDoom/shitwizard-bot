@@ -8,9 +8,12 @@ exports.run = function(bot, msg, args = []) {
   }
   voiceChannel.join()
    .then(connection => {
-     connection.playFile('./audio/shitwizard.mp3').on('end', () => {
-       voiceChannel.leave();
-     });
+     const dispatcher = connection.playFile('./audio/shitwizard.mp3');
+     setTimeout(function(){
+      dispatcher.on('end', () => {
+        voiceChannel.leave();
+      });
+     }, 300);
    })
    .catch(console.error);
 };
