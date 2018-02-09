@@ -3,7 +3,6 @@ const bot = new Discord.Client({ fetchAllMembers: true });
 const config = require('./config.json');
 const fs = require('fs');
 const moment = require('moment');
-const schedule = require('node-schedule');
 const pushover = require('./helpers/pushover');
 const display = require('./helpers/display-o-tron');
 const presence = require('./helpers/presence');
@@ -11,22 +10,6 @@ const presence = require('./helpers/presence');
 const log = function(msg) {
   console.log(`[${moment().format('YYYY-MM-DD HH:mm:ss')}] ${msg}`);
 };
-
-/* eslint-disable */
-var j = schedule.scheduleJob({hour: 18, minute: 50, dayOfWeek: 3}, function(){
-  let guild = bot.guilds.first();
-  let raid = guild.roles.find('name', 'Raid');
-
-  if (config.raid === true) {
-    bot.guilds.first().defaultChannel.sendMessage(`${raid} Raid starts in 10 min!`);
-    console.log('--- Raid Announcement ---');
-    pushover.send(`Sending raid announcment`);
-  } else {
-    // bot.guilds.first().defaultChannel.sendMessage(`${raid} No raid this week! Go outside or something.`);
-    config.raid = true;
-  }
-});
-/* eslint-enable */
 
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
