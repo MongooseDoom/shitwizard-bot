@@ -1,6 +1,6 @@
-const request = require("request");
-const moment = require("moment");
-var table = require("markdown-table");
+const request = require('request');
+const moment = require('moment');
+var table = require('markdown-table');
 const { URL, URLSearchParams } = require('url');
 
 const apiURL = new URL("https://www.giantbomb.com/api/games/");
