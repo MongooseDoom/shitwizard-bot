@@ -65,8 +65,10 @@ bot.on('message', function(msg){
   }
 
   // Run command
-  if (cmd) {
+  if (cmd && cmd.conf.enabled) {
     cmd.run(bot, msg, args);
+  } else {
+    msg.react(`I'm sorry ${msg.author.username}, I'm afraid I can't do that.`);
   }
 });
 
