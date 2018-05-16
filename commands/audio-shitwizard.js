@@ -10,9 +10,9 @@ exports.run = function(bot, msg, args = []) {
    .then(connection => {
      const dispatcher = connection.playFile('./audio/shitwizard.mp3');
      setTimeout(function(){
-      dispatcher.on('end', () => {
-        voiceChannel.leave();
-      });
+       dispatcher.on('end', () => {
+         voiceChannel.leave();
+       });
      }, 300);
    })
    .catch(console.error);

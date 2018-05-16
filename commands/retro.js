@@ -10,10 +10,10 @@ exports.run = function(bot, msg, args = []) {
   if (lines[2]) { text.setLine3(lines[2]); }
     
   let URL = text.fetchURL().then((url) => {
-  	msg.channel.send(url);
-  	if (msg.deletable) {
+    msg.channel.send(url);
+    if (msg.deletable) {
       msg.delete().catch(console.error);
-	}
+    }
   });
 };
 

@@ -3,7 +3,7 @@ const moment = require('moment');
 var table = require('markdown-table');
 const { URL, URLSearchParams } = require('url');
 
-const apiURL = new URL("https://www.giantbomb.com/api/games/");
+const apiURL = new URL('https://www.giantbomb.com/api/games/');
 const exclude_platforms = ['IPHN', 'IPAD', 'ANDR', 'LIN'];
 
 exports.run = function(bot, msg, args = []) {
