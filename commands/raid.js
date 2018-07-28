@@ -42,7 +42,7 @@ exports.run = function(bot, msg, args = []) {
 };
 
 exports.conf = {
-  enabled: false, // not used yet
+  enabled: false,
   aliases: [],
 };
 
