@@ -18,7 +18,7 @@ exports.run = function(bot, msg, args = []) {
   let raceList = raceArray;
   
   if (basicOnly) {
-  	raceList = raceArray.filter((race) => { race.type == 'basic' });
+    raceList = raceArray.filter((race) => { race.type == 'basic'; });
   }
   console.log(raceList);
   
@@ -29,17 +29,17 @@ exports.run = function(bot, msg, args = []) {
   
   // Check to make sure the user has not selected more than 6 players or more than 3 choices
   if (numOfPlayers > maxPlayers) { msg.reply('Twilight Imperium supports a max of 6 players'); return; }
-  if ((numOfPlayers*numOfChoices) > raceList.length) { msg.reply("There aren't enough races to support that many choices per player"); return; }
+  if ((numOfPlayers * numOfChoices) > raceList.length) { msg.reply(`There aren't enough races to support that many choices per player`); return; }
   
   // Function that returns a random race
   function getRandomRace(){
-  	let race = false;
-  	
-	while (race == false) {
+    let race = false;
+
+    while (race == false) {
       const random = getRandomInt(0, raceList.length);
       if (raceList[random].chosen == false) {
-      	race = raceList[random];
-      	raceList[random].chosen = true;
+        race = raceList[random];
+        raceList[random].chosen = true;
       }
     }
     
@@ -48,15 +48,15 @@ exports.run = function(bot, msg, args = []) {
   
   
   for (var i = 1; i <= numOfPlayers; i++) {
-  	let playerLimit = 0;
-  	let playerOptions = [];
-  	
-  	while (playerLimit < numOfChoices) {
+    let playerLimit = 0;
+    let playerOptions = [];
+    
+    while (playerLimit < numOfChoices) {
       playerOptions.push(getRandomRace().name);
       playerLimit++;
     }
 	
-	playerOptionList.push(playerOptions);
+    playerOptionList.push(playerOptions);
   }
   
   // Send message with player choices
