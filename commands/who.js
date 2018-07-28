@@ -14,10 +14,10 @@ exports.run = function(bot, msg, args = []) {
       color: parseInt(classColors[character.class - 1], 16),
       author: {
         name: `${character.name} - ${character.realm}`,
-        url: `http://us.battle.net/wow/en/character/${character.realm}/${character.name}/simple`
+        url: `https://worldofwarcraft.com/en-us/character/${character.realm}/${character.name}`
       },
       thumbnail: {
-        url: `http://render-api-us.worldofwarcraft.com/static-render/us/${character.thumbnail}`,
+        url: `http://render-us.worldofwarcraft.com/character/${character.thumbnail}`,
         width: 84,
         height: 84,
       },
