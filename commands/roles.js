@@ -1,4 +1,4 @@
-const presence = require('./helpers/presence');
+const presence = require('../helpers/presence');
 
 exports.run = function (bot, msg, args = []) {
   if (msg.author.username != 'MongooseDoom') { return; }
