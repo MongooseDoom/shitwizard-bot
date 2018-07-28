@@ -57,7 +57,7 @@ exports.run = function(bot, msg, args = []) {
 };
 
 exports.conf = {
-  enabled: true, // not used yet
+  enabled: true,
   aliases: ['hearthstone'],
 };
 
