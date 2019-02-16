@@ -93,7 +93,7 @@ bot.on('ready', function() {
 bot.on('disconnect', function() {
   log('Disconnected! 😭');
   pushover.send(`Shitwizard disconnected! 😭`);
-  display.write('Disconnected!', [236, 35, 21]);
+  display.reset();
 });
 
 bot.on('reconnecting', function() {
