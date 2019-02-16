@@ -9,6 +9,9 @@ exports.run = function(bot, msg, args = []) {
     queue = [];
   }
 
+  // Make sure video is from youtube
+  if (!args[0].includes('youtu')) { return; }
+
   // Add video to queue
   queue.push(args[0]);
 
