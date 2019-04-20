@@ -8,7 +8,7 @@ exports.run = function(bot, msg, args = []) {
   }
   voiceChannel.join()
    .then(connection => {
-     connection.playFile('./audio/robes.mp3').on('end', () => {
+     const dispatcher = connection.playFile('./audio/robes.mp3').on('end', () => {
        voiceChannel.leave();
      });
    })
