@@ -6,7 +6,7 @@ exports.run = function(bot, msg, args = []) {
   if (args[0]) {
     realm = args[0];
   }
-  request(`https://us.api.battle.net/wow/realm/status?locale=en_US&apikey=${process.env.BATTLENET_TOKEN}&realms=${realm}`, function(error, response, body){
+  request(`https://us.api.blizzard.com/wow/realm/status?locale=en_US&access_token=${process.env.BATTLENET_TOKEN}&realms=${realm}`, function(error, response, body){
     var data = JSON.parse(body);
     if (error || response.statusCode !== 200 || data.realms.length > 1) {
       console.log(error);
