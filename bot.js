@@ -33,8 +33,13 @@ bot.on('message', function(msg){
   if(msg.author.bot) return;
 
   // Add reaction when people are mad at shitwizard
-  if(msg.content.indexOf('damn') != -1 && msg.content.indexOf('shitwizard')) {
+  if((msg.content.indexOf('damn') != -1 || msg.content.indexOf('dammit') != -1) && msg.content.indexOf('shitwizard')) != -1) {
     msg.react('😎');
+  }
+  
+  // Add reaction when people are mean at shitwizard
+  if(msg.content.indexOf('you suck, shitwizard') != -1) {
+    msg.react('😭');
   }
 
   // Exit if no prefix
