@@ -1,0 +1,6 @@
+apps:
+  - script: bot.js
+    env:
+      GUILD: ''
+      RASPBERRYPI: 'false'
+      DISCORD_TOKEN: ''
