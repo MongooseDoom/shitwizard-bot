@@ -1,6 +1,7 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const { prefix } = require('./config.json')
+const { prefix } = require('./config.json');
+const display = require('./helpers/display-o-tron');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -48,8 +49,10 @@ client.on('message', message => {
   // Execute the command
   try {
     command.execute(message, args);
+    display.write([message.author, message.content], [0, 255, 0]);
   } catch (error) {
     console.error(error);
+    display.write(['Error', message.author, message.content], [255, 0, 0]);
     message.channel.send(`I'm sorry ${message.author}, I'm afraid I can't do that.`);
   }
 });
