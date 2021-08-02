@@ -24,8 +24,5 @@
   "bugs": {
     "url": "https://github.com/MongooseDoom/discord-shirley/issues"
   },
-  "homepage": "https://github.com/MongooseDoom/discord-shirley#readme",
-  "dependencies": {
-    "node-opus": "^0.2.7"
-  }
+  "homepage": "https://github.com/MongooseDoom/discord-shirley#readme"
 }
