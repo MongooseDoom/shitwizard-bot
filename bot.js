@@ -49,10 +49,10 @@ client.on('message', message => {
   // Execute the command
   try {
     command.execute(message, args);
-    display.write([message.author, message.content], [0, 255, 0]);
+    display.write([message.author.username, message.content], [0, 255, 0]);
   } catch (error) {
     console.error(error);
-    display.write(['Error', message.author, message.content], [255, 0, 0]);
+    display.write(['Error', message.author.username, message.content], [255, 0, 0]);
     message.channel.send(`I'm sorry ${message.author}, I'm afraid I can't do that.`);
   }
 });
