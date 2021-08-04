@@ -25,17 +25,27 @@ module.exports = {
     let raceList = raceArray;
 
     if (basicOnly) {
-      raceList = raceArray.filter((race) => { race.type == 'basic'; });
+      raceList = raceArray.filter(race => {
+        race.type == 'basic';
+      });
     }
 
-    raceList.forEach((race) => { race.chosen = false; });
+    raceList.forEach(race => {
+      race.chosen = false;
+    });
 
     // Create a list to return
     let playerOptionList = [];
 
     // Check to make sure the user has not selected more than 6 players or more than 3 choices
-    if (numOfPlayers > maxPlayers) { msg.reply('Twilight Imperium supports a max of 6 players'); return; }
-    if ((numOfPlayers * numOfChoices) > raceList.length) { msg.reply(`There aren't enough races to support that many choices per player`); return; }
+    if (numOfPlayers > maxPlayers) {
+      msg.reply('Twilight Imperium supports a max of 6 players');
+      return;
+    }
+    if (numOfPlayers * numOfChoices > raceList.length) {
+      msg.reply(`There aren't enough races to support that many choices per player`);
+      return;
+    }
 
     // Function that returns a random race
     function getRandomRace() {
@@ -52,7 +62,6 @@ module.exports = {
       return race;
     }
 
-
     for (var i = 1; i <= numOfPlayers; i++) {
       let playerLimit = 0;
       let playerOptions = [];
@@ -66,6 +75,9 @@ module.exports = {
     }
 
     // Send message with player choices
-    message.channel.send(`${playerOptionList.map((c, i) => `= Player ${i + 1} =\n${c.join('\n')}`).join('\n\n')}`, { code: 'asciidoc', split: true });
+    message.channel.send(`${playerOptionList.map((c, i) => `= Player ${i + 1} =\n${c.join('\n')}`).join('\n\n')}`, {
+      code: 'asciidoc',
+      split: true,
+    });
   },
 };

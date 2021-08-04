@@ -1,100 +1,100 @@
 {
-	"races": [
-		{
-			"name": "The Arborec",
-			"type": "advanced"
-		},
-		{
-			"name": "The Argent Flight",
-			"type": "poc"
-		},
-		{
-			"name": "The Barony of Letnev",
-			"type": "basic"
-		},
-		{
-			"name": "The Clan of Saar",
-			"type": "advanced"
-		},
-		{
-			"name": "The Embers of Muaat",
-			"type": "basic"
-		},
-		{
-			"name": "The Emirates of Hacan",
-			"type": "basic"
-		},
-		{
-			"name": "The Empyrean",
-			"type": "poc"
-		},
-		{
-			"name": "The Federation of Sol",
-			"type": "basic"
-		},
-		{
-			"name": "The Ghosts of Creuss",
-			"type": "advanced"
-		},
-		{
-			"name": "The LIZIX Mindnet",
-			"type": "basic"
-		},
-		{
-			"name": "The Mahact Gene-Sorcerers",
-			"type": "poc"
-		},
-		{
-			"name": "The Mentak Coalition",
-			"type": "basic"
-		},
-		{
-			"name": "The Naalu Collecive",
-			"type": "basic"
-		},
-		{
-			"name": "The Naaz-Rokha Alliance",
-			"type": "poc"
-		},
-		{
-			"name": "The Nekro Virus",
-			"type": "advanced"
-		},
-		{
-			"name": "The Nomad",
-			"type": "poc"
-		},
-		{
-			"name": "Sardakk N'orr",
-			"type": "basic"
-		},
-		{
-			"name": "The Titans of Ul",
-			"type": "poc"
-		},
-		{
-			"name": "The Universities of Jol-Nar",
-			"type": "basic"
-		},
-		{
-			"name": "The Vuil'raith Cabal",
-			"type": "poc"
-		},
-		{
-			"name": "The Winnu",
-			"type": "basic"
-		},
-		{
-			"name": "The Xxcha Kingdom",
-			"type": "basic"
-		},
-		{
-			"name": "The Yin Brotherhood",
-			"type": "basic"
-		},
-		{
-			"name": "The Yssaril Tribes",
-			"type": "basic"
-		}
-	]
+  "races": [
+    {
+      "name": "The Arborec",
+      "type": "advanced"
+    },
+    {
+      "name": "The Argent Flight",
+      "type": "poc"
+    },
+    {
+      "name": "The Barony of Letnev",
+      "type": "basic"
+    },
+    {
+      "name": "The Clan of Saar",
+      "type": "advanced"
+    },
+    {
+      "name": "The Embers of Muaat",
+      "type": "basic"
+    },
+    {
+      "name": "The Emirates of Hacan",
+      "type": "basic"
+    },
+    {
+      "name": "The Empyrean",
+      "type": "poc"
+    },
+    {
+      "name": "The Federation of Sol",
+      "type": "basic"
+    },
+    {
+      "name": "The Ghosts of Creuss",
+      "type": "advanced"
+    },
+    {
+      "name": "The LIZIX Mindnet",
+      "type": "basic"
+    },
+    {
+      "name": "The Mahact Gene-Sorcerers",
+      "type": "poc"
+    },
+    {
+      "name": "The Mentak Coalition",
+      "type": "basic"
+    },
+    {
+      "name": "The Naalu Collecive",
+      "type": "basic"
+    },
+    {
+      "name": "The Naaz-Rokha Alliance",
+      "type": "poc"
+    },
+    {
+      "name": "The Nekro Virus",
+      "type": "advanced"
+    },
+    {
+      "name": "The Nomad",
+      "type": "poc"
+    },
+    {
+      "name": "Sardakk N'orr",
+      "type": "basic"
+    },
+    {
+      "name": "The Titans of Ul",
+      "type": "poc"
+    },
+    {
+      "name": "The Universities of Jol-Nar",
+      "type": "basic"
+    },
+    {
+      "name": "The Vuil'raith Cabal",
+      "type": "poc"
+    },
+    {
+      "name": "The Winnu",
+      "type": "basic"
+    },
+    {
+      "name": "The Xxcha Kingdom",
+      "type": "basic"
+    },
+    {
+      "name": "The Yin Brotherhood",
+      "type": "basic"
+    },
+    {
+      "name": "The Yssaril Tribes",
+      "type": "basic"
+    }
+  ]
 }

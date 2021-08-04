@@ -3,8 +3,10 @@ const JVSDisplayOTron = require('jvsdisplayotron');
 // Initialize the Display-o-Tron HAT.
 const dothat = new JVSDisplayOTron.DOTHAT();
 
-exports.write = function(msg, rgb = [162, 80, 255]){
-  if (process.env.RASPBERRYPI != 'true') { return; }
+exports.write = function (msg, rgb = [162, 80, 255]) {
+  if (process.env.RASPBERRYPI != 'true') {
+    return;
+  }
   dothat.lcd.setContrast(45);
   dothat.backlight.setToRGB(rgb[0], rgb[1], rgb[2]);
   if (Array.isArray(msg)) {
@@ -18,10 +20,10 @@ exports.write = function(msg, rgb = [162, 80, 255]){
   dothat.kill(false);
 };
 
-exports.reset = function(){
+exports.reset = function () {
   dothat.reset();
 };
 
-exports.changeColor = function(red, green, blue){
+exports.changeColor = function (red, green, blue) {
   dothat.backlight.setToRGB(red, green, blue);
 };

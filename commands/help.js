@@ -12,7 +12,13 @@ module.exports = {
 
     // Send the whole list of commands if no arguments were provided
     if (!args.length) {
-      return message.channel.send(`= Command List =\n\n[Use ${prefix}help <commandname> for details]\n\n${commands.filter(c => c.enabled == true).map(c => `${c.name}: ${c.description}`).join('\n')}`, { code: 'asciidoc', split: true });
+      return message.channel.send(
+        `= Command List =\n\n[Use ${prefix}help <commandname> for details]\n\n${commands
+          .filter(c => c.enabled == true)
+          .map(c => `${c.name}: ${c.description}`)
+          .join('\n')}`,
+        { code: 'asciidoc', split: true },
+      );
     }
 
     // Get the command
@@ -20,7 +26,7 @@ module.exports = {
     const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
     if (!command) {
-      return message.reply('That\'s not a valid command!');
+      return message.reply("That's not a valid command!");
     }
 
     // Create the help message for a single command

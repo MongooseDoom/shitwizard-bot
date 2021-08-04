@@ -6,10 +6,11 @@ Discord bot for Shirley Templars
 
 1. Install [Node.js](https://nodejs.org) if you haven't already
 2. Install [pm2](https://pm2.keymetrics.io/) globally `npm install pm2 -g`
-2. Run `npm install`
-3. Create a process.yml file based off of process-example.yml
-4. Run `pm2 start process --watch`
+3. Run `npm install`
+4. Create a process.yml file based off of process-example.yml
+5. Run `pm2 start process --watch`
 
 ## Resources
+
 - https://discordjs.guide/
 - https://discord.js.org/#/docs/main/stable/general/welcome

@@ -30,15 +30,15 @@ client.on('message', message => {
   const commandName = args.shift().toLowerCase();
 
   // Get the command
-  const command = client.commands.get(commandName)
-    || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+  const command =
+    client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
   // Exit if the command doesn't exist
   if (!command) return;
 
   // Check if the command should only be used in guilds
   if (command.guildOnly && message.channel.type === 'dm') {
-    return message.reply('I can\'t execute that command inside DMs!');
+    return message.reply("I can't execute that command inside DMs!");
   }
 
   // Check if the command requires arguments

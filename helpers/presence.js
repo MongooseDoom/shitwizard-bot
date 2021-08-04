@@ -1,4 +1,4 @@
-const update = function (member){
+exports.update = function (member) {
   let guild = member.guild;
   let wow = guild.roles.find('name', 'Playing WoW');
   let hots = guild.roles.find('name', 'Playing HotS');
@@ -33,5 +33,3 @@ const update = function (member){
     member.removeRole(games);
   }
 };
-
-module.exports.update = update;
