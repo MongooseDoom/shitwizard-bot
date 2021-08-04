@@ -39,11 +39,11 @@ module.exports = {
 
     // Check to make sure the user has not selected more than 6 players or more than 3 choices
     if (numOfPlayers > maxPlayers) {
-      msg.reply('Twilight Imperium supports a max of 6 players');
+      message.reply('Twilight Imperium supports a max of 6 players');
       return;
     }
     if (numOfPlayers * numOfChoices > raceList.length) {
-      msg.reply(`There aren't enough races to support that many choices per player`);
+      message.reply(`There aren't enough races to support that many choices per player`);
       return;
     }
 
