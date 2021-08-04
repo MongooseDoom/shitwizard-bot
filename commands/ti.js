@@ -1,5 +1,5 @@
 const races = require('../helpers/ti-races.json');
-const maxPlayers = 6;
+const maxPlayers = 8;
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -39,7 +39,7 @@ module.exports = {
 
     // Check to make sure the user has not selected more than 6 players or more than 3 choices
     if (numOfPlayers > maxPlayers) {
-      message.reply('Twilight Imperium supports a max of 6 players');
+      message.reply(`Twilight Imperium supports a max of ${maxPlayers} players`);
       return;
     }
     if (numOfPlayers * numOfChoices > raceList.length) {
