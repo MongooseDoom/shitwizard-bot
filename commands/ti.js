@@ -1,3 +1,4 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const races = require('../helpers/ti-races.json');
 const maxPlayers = 8;
 
@@ -8,17 +9,17 @@ function getRandomInt(min, max) {
 }
 
 module.exports = {
-  enabled: true,
-  guildOnly: false,
-  args: true,
-  name: 'ti',
-  description: 'Creates a random list of Twilight Imperium races for players to choose from.',
-  usage: 'ti <number of players> <number of choices> <optional: basic>',
-  execute(message, args) {
+  data: new SlashCommandBuilder()
+    .setName('ti')
+    .addIntegerOption(option => option.setName('numofplayers').setDescription('Number of players').setRequired(true))
+    .addIntegerOption(option => option.setName('numofchoices').setDescription('Number of choices').setRequired(true))
+    .addBooleanOption(option => option.setName('basiconly').setDescription('Use basic options only?').setRequired(false))
+    .setDescription('Creates a random list of Twilight Imperium races for players to choose from.'),
+  async execute(interaction) {
     // Set arguments
-    const numOfPlayers = parseInt(args[0]);
-    const numOfChoices = args[1] ? parseInt(args[1]) : 1;
-    const basicOnly = args[2] == 'basic' ? true : false;
+    const numOfPlayers = interaction.options.getInteger('numofplayers');
+    const numOfChoices = interaction.options.getInteger('numofchoices') || 1;
+    const basicOnly = interaction.options.getBoolean('basiconly');
 
     // Create a list with the chosen attribute to track when a race has already been chosen
     const raceArray = races.races;
@@ -39,11 +40,11 @@ module.exports = {
 
     // Check to make sure the user has not selected more than 6 players or more than 3 choices
     if (numOfPlayers > maxPlayers) {
-      message.reply(`Twilight Imperium supports a max of ${maxPlayers} players`);
+      interaction.reply(`Twilight Imperium supports a max of ${maxPlayers} players`);
       return;
     }
     if (numOfPlayers * numOfChoices > raceList.length) {
-      message.reply(`There aren't enough races to support that many choices per player`);
+      interaction.reply(`There aren't enough races to support that many choices per player`);
       return;
     }
 
@@ -75,7 +76,7 @@ module.exports = {
     }
 
     // Send message with player choices
-    message.channel.send(`${playerOptionList.map((c, i) => `= Player ${i + 1} =\n${c.join('\n')}`).join('\n\n')}`, {
+    await interaction.reply(`${playerOptionList.map((c, i) => `= Player ${i + 1} =\n${c.join('\n')}`).join('\n\n')}`, {
       code: 'asciidoc',
       split: true,
     });
