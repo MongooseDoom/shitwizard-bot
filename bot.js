@@ -1,110 +1,61 @@
-const Discord = require('discord.js');
-const bot = new Discord.Client({ fetchAllMembers: true });
-const config = require('./config.json');
 const fs = require('fs');
-const moment = require('moment');
-const pushover = require('./helpers/pushover');
+const Discord = require('discord.js');
+const { prefix } = require('./config.json');
 const display = require('./helpers/display-o-tron');
-const presence = require('./helpers/presence');
 
-const log = function(msg) {
-  console.log(`[${moment().format('YYYY-MM-DD HH:mm:ss')}] ${msg}`);
-};
+const client = new Discord.Client();
+client.commands = new Discord.Collection();
 
-bot.commands = new Discord.Collection();
-bot.aliases = new Discord.Collection();
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-// Load in all commands in ./commands
-fs.readdir('./commands/', function(err, files){
-  if (err) console.error(err);
-  log(`Loading a total of ${files.length} commands.`);
-  files.forEach(function(f){
-    let props = require(`./commands/${f}`);
-    log(`Loading Command: ${props.help.name}.`);
-    bot.commands.set(props.help.name, props);
-    props.conf.aliases.forEach(function(alias){
-      bot.aliases.set(alias, props.help.name);
-    });
-  });
+for (const file of commandFiles) {
+  const command = require(`./commands/${file}`);
+  // set a new item in the Collection
+  // with the key as the command name and the value as the exported module
+  client.commands.set(command.name, command);
+}
+
+// when the client is ready, run this code
+// this event will only trigger one time after logging in
+client.once('ready', () => {
+  console.log('Shitwizard is ready! 😎');
 });
 
-bot.on('message', function(msg){
-  // Exit if message is from a bot
-  if(msg.author.bot) return;
-
-  // Add reaction when people are mad at shitwizard
-  if(msg.content.indexOf('damn') != -1 && msg.content.indexOf('shitwizard')) {
-    msg.react('😎');
-  }
-
-  // Exit if no prefix
-  if(!msg.content.startsWith(config.prefix)) return;
-
-  // Get command
-  let command = msg.content.split(' ')[0];
-  command = command.slice(config.prefix.length);
-
-  // Log what was used
-  log(`${msg.author.username} used '${msg.content}'`);
-  if (command != 'display') {
-    display.write([msg.author.username, msg.content], [255, 241, 109]);
-  }
+client.on('message', message => {
+  // Exit if the message has no prefix or is from a bot
+  if (!message.content.startsWith(prefix) || message.author.bot) return;
 
   // Get arguments
-  let args = msg.content.split(' ').slice(1);
+  const args = message.content.slice(prefix.length).trim().split(/ +/);
+  const commandName = args.shift().toLowerCase();
 
-  let cmd;
+  // Get the command
+  const command =
+    client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
-  // Check if bot has command
-  if (bot.commands.has(command)) {
-    cmd = bot.commands.get(command);
-  } else if (bot.aliases.get(command)) {
-    cmd = bot.commands.get(bot.aliases.get(command));
-  } else {
-    pushover.send(`Suggestion: ${msg.author.username} used '${msg.content}'`);
+  // Exit if the command doesn't exist
+  if (!command) return;
+
+  // Check if the command should only be used in guilds
+  if (command.guildOnly && message.channel.type === 'dm') {
+    return message.reply("I can't execute that command inside DMs!");
   }
 
-  // Run command
-  if (cmd && cmd.conf.enabled) {
-    cmd.run(bot, msg, args);
-  } else {
-    msg.react(`I'm sorry ${msg.author.username}, I'm afraid I can't do that.`);
+  // Check if the command requires arguments
+  if (command.args && !args.length) {
+    return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
+  }
+
+  // Execute the command
+  try {
+    command.execute(message, args);
+    display.write([message.author.username, message.content], [0, 255, 0]);
+  } catch (error) {
+    console.error(error);
+    display.write(['Error', message.author.username, message.content], [255, 0, 0]);
+    message.channel.send(`I'm sorry ${message.author}, I'm afraid I can't do that.`);
   }
 });
 
-bot.on('presenceUpdate', function(oldMember, newMember) {
-  presence.update(newMember);
-});
-
-bot.on('ready', function() {
-  let guild = bot.guilds.first();
-
-  log(`Shitwizard is ready! 😎 \n`);
-  log(process.env.RASPBERRYPI);
-  pushover.send(`Shitwizard is ready! 😎`);
-  display.write('Online!', [171, 229, 57]);
-
-  // Update member presence on ready
-  guild.members.forEach(function(member){
-    presence.update(member);
-  });
-});
-
-bot.on('disconnect', function() {
-  log('Disconnected! 😭');
-  pushover.send(`Shitwizard disconnected! 😭`);
-  display.reset();
-});
-
-bot.on('reconnecting', function() {
-  log('Reconnecting...');
-  pushover.send(`Shitwizard reconnecting...`);
-  display.write('Reconnecting...', [235, 86, 226]);
-});
-
-bot.on('error', function(e) {
-  console.error(e);
-  pushover.send(`Shitwizard error: ${e}`);
-});
-
-bot.login(process.env.DISCORD_TOKEN);
+// login to Discord with your app's token
+client.login(process.env.DISCORD_TOKEN);

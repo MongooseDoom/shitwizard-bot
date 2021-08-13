@@ -5,10 +5,12 @@ Discord bot for Shirley Templars
 ## Instructions:
 
 1. Install [Node.js](https://nodejs.org) if you haven't already
-2. Run `npm install`
-3. Add token to bot.js
-4. Run `node bot.js`
+2. Install [pm2](https://pm2.keymetrics.io/) globally `npm install pm2 -g`
+3. Run `npm install`
+4. Create a process.yml file based off of process-example.yml
+5. Run `pm2 start process --watch`
 
 ## Resources
-- https://eslachance.gitbooks.io/discord-js-bot-guide/content/
-- https://discord.js.org/#!/docs/tag/master/file/general/Welcome
+
+- https://discordjs.guide/
+- https://discord.js.org/#/docs/main/stable/general/welcome
