@@ -1,10 +1,10 @@
 const fs = require('fs');
-const Discord = require('discord.js');
+const { Client, Collection, Intents } = require('discord.js');
 const { prefix } = require('./config.json');
 const display = require('./helpers/display-o-tron');
 
-const client = new Discord.Client();
-client.commands = new Discord.Collection();
+const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+client.commands = new Collection();
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -12,7 +12,7 @@ for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
   // set a new item in the Collection
   // with the key as the command name and the value as the exported module
-  client.commands.set(command.name, command);
+  client.commands.set(command.data.name, command);
 }
 
 // when the client is ready, run this code
@@ -21,39 +21,16 @@ client.once('ready', () => {
   console.log('Shitwizard is ready! 😎');
 });
 
-client.on('message', message => {
-  // Exit if the message has no prefix or is from a bot
-  if (!message.content.startsWith(prefix) || message.author.bot) return;
+client.on('interactionCreate', async interaction => {
+  if (!interaction.isCommand()) return;
 
-  // Get arguments
-  const args = message.content.slice(prefix.length).trim().split(/ +/);
-  const commandName = args.shift().toLowerCase();
+  if (!client.commands.has(interaction.commandName)) return;
 
-  // Get the command
-  const command =
-    client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-
-  // Exit if the command doesn't exist
-  if (!command) return;
-
-  // Check if the command should only be used in guilds
-  if (command.guildOnly && message.channel.type === 'dm') {
-    return message.reply("I can't execute that command inside DMs!");
-  }
-
-  // Check if the command requires arguments
-  if (command.args && !args.length) {
-    return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
-  }
-
-  // Execute the command
   try {
-    command.execute(message, args);
-    display.write([message.author.username, message.content], [0, 255, 0]);
+    await client.commands.get(interaction.commandName).execute(interaction);
   } catch (error) {
     console.error(error);
-    display.write(['Error', message.author.username, message.content], [255, 0, 0]);
-    message.channel.send(`I'm sorry ${message.author}, I'm afraid I can't do that.`);
+    await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
   }
 });
 
